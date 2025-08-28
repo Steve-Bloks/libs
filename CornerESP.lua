@@ -77,16 +77,16 @@ local function Main(plr)
 
             if plr.Character ~= nil
             and plr.Character:FindFirstChild("Humanoid") ~= nil
-            and plr.Character:FindFirstChild("HumanoidRootPart") ~= nil
+            and plr.Character:FindFirstChild("Torso") ~= nil
             and plr.Character.Humanoid.Health > 0
             and plr.Character:FindFirstChild("Head") ~= nil then
 
                 local Hum = plr.Character
-                local _, vis = Camera:WorldToViewportPoint(Hum.HumanoidRootPart.Position)
+                local _, vis = Camera:WorldToViewportPoint(Hum.Torso.Position)
 
                 if vis then
-                    oripart.Size = Vector3.new(Hum.HumanoidRootPart.Size.X, Hum.HumanoidRootPart.Size.Y*1.5, Hum.HumanoidRootPart.Size.Z)
-                    oripart.CFrame = CFrame.new(Hum.HumanoidRootPart.CFrame.Position, Camera.CFrame.Position)
+                    oripart.Size = Vector3.new(Hum.Torso.Size.X, Hum.Torso.Size.Y*1.5, Hum.Torso.Size.Z)
+                    oripart.CFrame = CFrame.new(Hum.Torso.CFrame.Position, Camera.CFrame.Position)
 
                     local SizeX = oripart.Size.X
                     local SizeY = oripart.Size.Y
@@ -105,7 +105,7 @@ local function Main(plr)
                         Colorize(Library, Color3.fromRGB(255, 255, 255))
                     end
 
-                    local ratio = (Camera.CFrame.p - Hum.HumanoidRootPart.Position).magnitude
+                    local ratio = (Camera.CFrame.p - Hum.Torso.Position).magnitude
                     local offset = math.clamp(1/ratio*750, 2, 300)
 
                     Library.TL1.From = Vector2.new(TL.X, TL.Y)
@@ -129,7 +129,7 @@ local function Main(plr)
                     Library.BR2.To = Vector2.new(BR.X, BR.Y - offset)
 
                     if getfenv().ESPSettings.Autothickness then
-                        local distance = (Player.Character.HumanoidRootPart.Position - oripart.Position).magnitude
+                        local distance = (Player.Character.Torso.Position - oripart.Position).magnitude
                         local value = math.clamp(1/distance*100, 1, 4)
                         for _, x in pairs(Library) do
                             x.Thickness = value
