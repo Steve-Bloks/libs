@@ -1,8 +1,7 @@
 getfenv().ESPSettings = {
     Enabled = true,
-    Box_Color = Color3.fromRGB(255, 0, 0),
+    Box_Color = Color3.fromRGB(255, 255, 255),
     Box_Thickness = 2,
-    Team_Check = false,
     Team_Color = true,
     Autothickness = true
 }
@@ -23,18 +22,16 @@ local function NewLine(color, thickness)
 end
 
 local function Vis(lib, state)
-    for i, v in pairs(lib) do
+    for _, v in pairs(lib) do
         v.Visible = state
     end
 end
 
 local function Colorize(lib, color)
-    for i, v in pairs(lib) do
+    for _, v in pairs(lib) do
         v.Color = color
     end
 end
-
-local Black = Color3.fromRGB(0, 0, 0)
 
 local function Rainbow(lib, delay)
     for hue = 0, 1, 1/30 do
@@ -47,7 +44,6 @@ end
 
 local function Main(plr)
     repeat wait() until plr.Character ~= nil and plr.Character:FindFirstChild("Humanoid") ~= nil
-    local R15 = plr.Character.Humanoid.RigType == Enum.HumanoidRigType.R15
 
     local Library = {
         TL1 = NewLine(getfenv().ESPSettings.Box_Color, getfenv().ESPSettings.Box_Thickness),
@@ -77,14 +73,15 @@ local function Main(plr)
                 return
             end
 
-            if plr.Character ~= nil 
-            and plr.Character:FindFirstChild("Humanoid") ~= nil 
-            and plr.Character:FindFirstChild("HumanoidRootPart") ~= nil 
-            and plr.Character.Humanoid.Health > 0 
+            if plr.Character ~= nil
+            and plr.Character:FindFirstChild("Humanoid") ~= nil
+            and plr.Character:FindFirstChild("HumanoidRootPart") ~= nil
+            and plr.Character.Humanoid.Health > 0
             and plr.Character:FindFirstChild("Head") ~= nil then
 
                 local Hum = plr.Character
-                local HumPos, vis = Camera:WorldToViewportPoint(Hum.HumanoidRootPart.Position)
+                local _, vis = Camera:WorldToViewportPoint(Hum.HumanoidRootPart.Position)
+
                 if vis then
                     oripart.Size = Vector3.new(Hum.HumanoidRootPart.Size.X, Hum.HumanoidRootPart.Size.Y*1.5, Hum.HumanoidRootPart.Size.Z)
                     oripart.CFrame = CFrame.new(Hum.HumanoidRootPart.CFrame.Position, Camera.CFrame.Position)
@@ -96,16 +93,14 @@ local function Main(plr)
                     local BL = Camera:WorldToViewportPoint((oripart.CFrame * CFrame.new(SizeX, -SizeY, 0)).p)
                     local BR = Camera:WorldToViewportPoint((oripart.CFrame * CFrame.new(-SizeX, -SizeY, 0)).p)
 
-                    if getfenv().ESPSettings.Team_Check then
+                    if getfenv().ESPSettings.Team_Color then
                         if plr.TeamColor == Player.TeamColor then
                             Colorize(Library, Color3.fromRGB(0, 255, 0))
-                        else 
+                        else
                             Colorize(Library, Color3.fromRGB(255, 0, 0))
                         end
-                    end
-
-                    if getfenv().ESPSettings.Team_Color then
-                        Colorize(Library, plr.TeamColor.Color)
+                    else
+                        Colorize(Library, Color3.fromRGB(255, 255, 255))
                     end
 
                     local ratio = (Camera.CFrame.p - Hum.HumanoidRootPart.Position).magnitude
@@ -134,23 +129,23 @@ local function Main(plr)
                     if getfenv().ESPSettings.Autothickness then
                         local distance = (Player.Character.HumanoidRootPart.Position - oripart.Position).magnitude
                         local value = math.clamp(1/distance*100, 1, 4)
-                        for u, x in pairs(Library) do
+                        for _, x in pairs(Library) do
                             x.Thickness = value
                         end
-                    else 
-                        for u, x in pairs(Library) do
+                    else
+                        for _, x in pairs(Library) do
                             x.Thickness = getfenv().ESPSettings.Box_Thickness
                         end
                     end
 
                     Vis(Library, true)
-                else 
+                else
                     Vis(Library, false)
                 end
-            else 
+            else
                 Vis(Library, false)
                 if game:GetService("Players"):FindFirstChild(plr.Name) == nil then
-                    for i, v in pairs(Library) do
+                    for _, v in pairs(Library) do
                         v:Remove()
                         oripart:Destroy()
                     end
@@ -159,10 +154,11 @@ local function Main(plr)
             end
         end)
     end
+
     coroutine.wrap(Updater)()
 end
 
-for i, v in pairs(game:GetService("Players"):GetPlayers()) do
+for _, v in pairs(game:GetService("Players"):GetPlayers()) do
     if v.Name ~= Player.Name then
         coroutine.wrap(Main)(v)
     end
