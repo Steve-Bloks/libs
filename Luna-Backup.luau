@@ -1994,7 +1994,7 @@ function Luna:CreateWindow(WindowSettings)
 
 	local Passthrough = false
 
-	local Window = { Bind = Enum.KeyCode.K, CurrentTab = nil, State = true, Size = false, Settings = nil }
+	local Window = { Bind = Enum.KeyCode.RightShift, CurrentTab = nil, State = true, Size = false, Settings = nil }
 
 	Main.Title.Title.Text = WindowSettings.Name
 	Main.Title.subtitle.Text = WindowSettings.Subtitle
