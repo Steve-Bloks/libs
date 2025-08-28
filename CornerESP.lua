@@ -77,16 +77,17 @@ local function Main(plr)
 
             if plr.Character ~= nil
             and plr.Character:FindFirstChild("Humanoid") ~= nil
-            and plr.Character:FindFirstChild("Torso") ~= nil
+            and (plr.Character:FindFirstChild("Torso") ~= nil or plr.Character:FindFirstChild("UpperTorso") ~= nil)
             and plr.Character.Humanoid.Health > 0
             and plr.Character:FindFirstChild("Head") ~= nil then
 
                 local Hum = plr.Character
-                local _, vis = Camera:WorldToViewportPoint(Hum.Torso.Position)
+                local torso = plr.Character:FindFirstChild("Torso") or plr.Character:FindFirstChild("UpperTorso")
+                local _, vis = Camera:WorldToViewportPoint(torso.Position)
 
                 if vis then
-                    oripart.Size = Vector3.new(Hum.Torso.Size.X, Hum.Torso.Size.Y*1.5, Hum.Torso.Size.Z)
-                    oripart.CFrame = CFrame.new(Hum.Torso.CFrame.Position, Camera.CFrame.Position)
+                    oripart.Size = Vector3.new(torso.Size.X, torso.Size.Y*1.5, torso.Size.Z)
+                    oripart.CFrame = CFrame.new(torso.CFrame.Position, Camera.CFrame.Position)
 
                     local SizeX = oripart.Size.X
                     local SizeY = oripart.Size.Y
@@ -105,7 +106,7 @@ local function Main(plr)
                         Colorize(Library, Color3.fromRGB(255, 255, 255))
                     end
 
-                    local ratio = (Camera.CFrame.p - Hum.Torso.Position).magnitude
+                    local ratio = (Camera.CFrame.p - torso.Position).magnitude
                     local offset = math.clamp(1/ratio*750, 2, 300)
 
                     Library.TL1.From = Vector2.new(TL.X, TL.Y)
@@ -129,7 +130,7 @@ local function Main(plr)
                     Library.BR2.To = Vector2.new(BR.X, BR.Y - offset)
 
                     if getfenv().ESPSettings.Autothickness then
-                        local distance = (Player.Character.Torso.Position - oripart.Position).magnitude
+                        local distance = (Player.Character.HumanoidRootPart.Position - oripart.Position).magnitude
                         local value = math.clamp(1/distance*100, 1, 4)
                         for _, x in pairs(Library) do
                             x.Thickness = value
