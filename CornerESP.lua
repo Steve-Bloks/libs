@@ -5,7 +5,7 @@ getfenv().ESPSettings = {
     Team_Color = false,
     Team_Color_Value = Color3.fromRGB(0, 255, 0),
     Enemy_Color_Value = Color3.fromRGB(255, 0, 0),
-    Autothickness = true
+    Autothickness = false
 }
 
 local Space = game:GetService("Workspace")
