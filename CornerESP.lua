@@ -1,8 +1,10 @@
 getfenv().ESPSettings = {
-    Enabled = true,
-    Box_Color = Color3.fromRGB(255, 255, 255),
+    Enabled = false,
+    Box_Color = Color3.fromRGB(255, 0, 0),
     Box_Thickness = 2,
-    Team_Color = true,
+    Team_Color = false,
+    Team_Color_Value = Color3.fromRGB(0, 255, 0),
+    Enemy_Color_Value = Color3.fromRGB(255, 0, 0),
     Autothickness = true
 }
 
@@ -95,9 +97,9 @@ local function Main(plr)
 
                     if getfenv().ESPSettings.Team_Color then
                         if plr.TeamColor == Player.TeamColor then
-                            Colorize(Library, Color3.fromRGB(0, 255, 0))
+                            Colorize(Library, getfenv().ESPSettings.Team_Color_Value)
                         else
-                            Colorize(Library, Color3.fromRGB(255, 0, 0))
+                            Colorize(Library, getfenv().ESPSettings.Enemy_Color_Value)
                         end
                     else
                         Colorize(Library, Color3.fromRGB(255, 255, 255))
